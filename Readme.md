@@ -1,6 +1,6 @@
 ### Fr:day
 
-more details about task [here]()
+more details about task [here](https://github.com/Ebazhanov/Friday/blob/master/TASK.md)
 
 ##### How to run
 
