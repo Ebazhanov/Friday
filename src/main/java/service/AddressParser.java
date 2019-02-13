@@ -6,6 +6,8 @@ import com.google.gson.JsonObject;
 public class AddressParser {
 
     private final static Gson GSON = new Gson();
+    private static final String NO = "No";
+    private static final String COMMA = ",";
 
     /**
      * @return selected method with specific index
@@ -14,7 +16,7 @@ public class AddressParser {
     public String selectParseMethod(String input) {
         if (isFirstLetterIsNumber(input)) {
             return parseWhenNumbersIsFirst(input);
-        } else if (input.contains(",") | input.contains("No")) {
+        } else if (input.contains(COMMA) | input.contains(NO)) {
             return parseWhenNumbersIsLast(input);
         } else {
             return parseWhenNumbersIsLast(input);
@@ -22,10 +24,10 @@ public class AddressParser {
     }
 
     private int findElementInString(String input) {
-        if (input.contains("No")) {
-            return input.indexOf("No");
-        } else if (input.contains(",")) {
-            return input.indexOf(",") + 1;
+        if (input.contains(NO)) {
+            return input.indexOf(NO);
+        } else if (input.contains(COMMA)) {
+            return input.indexOf(COMMA) + 1;
         } else if (isFirstLetterIsNumber(input)) {
             return input.indexOf(" ") + 1;
         } else {
@@ -47,7 +49,7 @@ public class AddressParser {
         return -1;
     }
 
-    private String parseStringToJson(String streetName, String houseNumber) {
+    private String prepareJson(String streetName, String houseNumber) {
         final JsonObject jsonAddress = new JsonObject();
         jsonAddress.addProperty("street", streetName);
         jsonAddress.addProperty("housenumber", houseNumber);
@@ -58,14 +60,14 @@ public class AddressParser {
         final int firstNumberIndex = findElementInString(input);
         final String streetName = input.substring(0, firstNumberIndex - 1);
         final String houseNumber = input.substring(firstNumberIndex).trim();
-        return parseStringToJson(streetName, houseNumber);
+        return prepareJson(streetName, houseNumber);
     }
 
     private String parseWhenNumbersIsFirst(String input) {
         final int firstNumberIndex = findElementInString(input);
         final String streetName = input.substring(firstNumberIndex).trim();
         final String houseNumber = input.substring(0, firstNumberIndex - 1);
-        return parseStringToJson(streetName, houseNumber);
+        return prepareJson(streetName, houseNumber);
     }
 
 }
